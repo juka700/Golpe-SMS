@@ -1,8 +1,8 @@
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 // =================== CORES ANSI ======================
 
@@ -15,13 +15,8 @@ class Colors {
     public static final String CYAN = "\u001B[36m";
 }
 
-
-
-// ====================== ANIMAÇÃO ======================
-
+// =================== ANIMAÇÃO ========================
 class Animation {
-
-    // Escreve texto com animação estilo “digitando”
     public static void type(String text, int delayMs) {
         for (char c : text.toCharArray()) {
             System.out.print(c);
@@ -31,136 +26,181 @@ class Animation {
     }
 }
 
+// =================== DASHBOARD =======================
+
+class Stats {
+    public static int totalAnalisados = 0;
+    public static int totalSuspeitos = 0;
+    public static int totalNaoSuspeitos = 0;
+
+    public static Map<String, Integer> palavrasDetectadas = new HashMap<>();
+
+    public static void registrarResultado(DetectionResult r) {
+        totalAnalisados++;
+
+        if (r.isSuspeita()) totalSuspeitos++;
+        else totalNaoSuspeitos++;
+
+        for (String p : r.getPalavrasDetectadas()) {
+            palavrasDetectadas.put(p, palavrasDetectadas.getOrDefault(p, 0) + 1);
+        }
+    }
+
+    public static void mostrarDashboard() {
+        UI.clearScreen();
+        System.out.println(Colors.CYAN + "======== DASHBOARD DE ESTATÍSTICAS ========\n" + Colors.RESET);
+
+        System.out.println("Mensagens analisadas: " + totalAnalisados);
+        System.out.println("Suspeitas: " + Colors.RED + totalSuspeitos + Colors.RESET);
+        System.out.println("Não suspeitas: " + Colors.GREEN + totalNaoSuspeitos + Colors.RESET);
+
+        System.out.println("\nPalavras mais detectadas:\n");
+
+        if (palavrasDetectadas.isEmpty()) {
+            System.out.println("(Nenhuma palavra detectada ainda)");
+        } else {
+            palavrasDetectadas.entrySet().stream()
+                    .sorted((a,b) -> b.getValue() - a.getValue())
+                    .limit(10)
+                    .forEach(e -> {
+                        System.out.printf("%-20s | %s (%d)\n",
+                                e.getKey(),
+                                "█".repeat(e.getValue()),
+                                e.getValue());
+                    });
+        }
+
+        System.out.println("\n===========================================");
+        System.out.print("\nENTER para voltar...");
+        new Scanner(System.in).nextLine();
+    }
+}
 
 
-// ================== BANCO DE DADOS ====================
+// =================== BANCO DE DADOS =======================
 
 class GolpeDatabase {
 
     public static final String[][] GOLPES = {
 
             { "Golpes por contato telefônico - Falsa Central de Atendimento",
-              "O golpe da Central de Atendimento é quando golpistas se passam por funcionários.\nSaiba mais: https://blog.bb.com.br/golpe-falsa-central-de-atendimento/",
-              "Nunca compartilhe senhas.",
-              "Ligue para o banco você mesmo." },
+                    "Falso atendente se passando por banco.",
+                    "Nunca revele senhas.",
+                    "Ligue para o banco você mesmo." },
 
             { "Golpe do Falso Motoboy",
-              "Golpistas pegam cartões alegando fraude.\nSaiba mais: https://blog.bb.com.br/golpe-do-falso-motoboy-saiba-como-se-proteger/",
-              "Nenhum banco recolhe cartões.",
-              "Nunca entregue cartões a terceiros." },
+                    "Golpistas fingem recolher cartões.",
+                    "Banco nunca coleta cartões.",
+                    "Não entregue cartões." },
 
             { "Golpe da Mão Fantasma",
-              "Criminosos usam acesso remoto.\nSaiba mais: https://blog.bb.com.br/como-evitar-golpes-de-acesso-remoto/",
-              "Não instale apps por telefone.",
-              "Desligue o celular e vá ao banco." },
+                    "Golpe de acesso remoto.",
+                    "Não instale apps por telefone.",
+                    "Desligue o celular e vá ao banco." },
 
             { "Golpe Módulo de Segurança",
-              "Golpistas dizem para instalar módulos falsos.\nSaiba mais: https://blog.bb.com.br/golpe-do-modulo-seguranca-bb/",
-              "Não instale apps via link.",
-              "Use apenas lojas oficiais." },
+                    "Golpistas pedem instalar módulo falso.",
+                    "Não baixe apps fora da loja.",
+                    "Verifique no site oficial." },
 
             { "Golpe do Empréstimo Consignado",
-              "Usam dados pessoais para empréstimos falsos.\nSaiba mais: https://blog.bb.com.br/veja-como-se-proteger-do-golpe-do-emprestimo-consignado/",
-              "Não aceite ofertas rápidas.",
-              "Consulte canais oficiais." },
+                    "Ofertas falsas de empréstimo.",
+                    "Desconfie de urgência.",
+                    "Verifique no banco." },
 
             { "Golpe da Liberação de Equipamentos",
-              "Pedem que vá ao caixa eletrônico.\nSaiba mais: https://blog.bb.com.br/roubaram-o-meu-celular-e-agora/",
-              "Não siga instruções desconhecidas.",
-              "Ligue para o banco." },
+                    "Pedem que vá ao caixa eletrônico.",
+                    "Nunca siga ordens suspeitas.",
+                    "Confirme com o banco." },
 
             { "Golpe do 0800",
-              "Fazem você ligar para número falso.\nSaiba mais: https://blog.bb.com.br/golpe-0800/",
-              "Use só números do site.",
-              "Nunca retorne números enviados por SMS." },
+                    "Número falso de atendimento.",
+                    "Use apenas site oficial.",
+                    "Nunca ligue para números enviados por SMS." },
 
             { "Golpe da Videochamada",
-              "Pedem documentos em vídeo.\nSaiba mais: https://blog.bb.com.br/golpe-da-videochamada/",
-              "Não mostre documentos.",
-              "Atendimento oficial nunca pede vídeo." },
+                    "Pedem documentos por vídeo.",
+                    "Banco não pede isso.",
+                    "Nunca mostre documentos." },
 
-            { "Golpes por Mensagens - Links Falsos",
-              "SMS com links falsos.\nSaiba mais: https://blog.bb.com.br/golpe-via-sms-rouba-dados-bancarios/",
-              "Não clique em links.",
-              "Abra manualmente o app do banco." },
+            { "Golpes por Links",
+                    "Mensagens com links suspeitos.",
+                    "Nunca clique.",
+                    "Abra o app oficial." },
 
             { "Golpes no WhatsApp",
-              "Fingem ser familiares.\nSaiba mais: https://www.bb.com.br/site/pra-voce/seguranca/conheca-os-principais-golpes/",
-              "Confirme por ligação.",
-              "Nunca transfira sem validar identidade." },
+                    "Perfis falsos fingindo ser parentes.",
+                    "Confirme por ligação.",
+                    "Nunca transfira sem validar." },
 
             { "Golpe do Desenrola Brasil",
-              "Links falsos sobre renegociação.\nSaiba mais: https://blog.bb.com.br/desenrola-brasil-golpes-usam-links-falsos/",
-              "Verifique no site oficial.",
-              "Nunca envie documentos por WhatsApp." },
+                    "Links falsos de renegociação.",
+                    "Acesse apenas site oficial.",
+                    "Não envie documentos." },
 
-            { "Catfish e Golpes Online",
-              "Perfis falsos manipulam vítimas.\nSaiba mais: https://blog.bb.com.br/catfish-e-golpes-online/",
-              "Pesquise fotos.",
-              "Não envie dinheiro." },
+            { "Catfish",
+                    "Relacionamentos falsos online.",
+                    "Pesquise fotos.",
+                    "Não envie dinheiro." },
 
             { "Golpe do Emprego",
-              "Cobram taxa por vaga.\nSaiba mais: https://blog.bb.com.br/golpe-do-emprego-como-identificar-e-evitar/",
-              "Vagas reais não cobram.",
-              "Pesquise o CNPJ." },
+                    "Cobra taxa por vaga.",
+                    "Vagas reais não cobram.",
+                    "Pesquise a empresa." },
 
             { "Golpes Pix",
-              "Pressionam para enviar Pix imediato.\nSaiba mais: https://blog.bb.com.br/golpes-do-pix-saiba-como-se-proteger/",
-              "Não aja sob pressão.",
-              "Confira o destinatário." },
+                    "Pressão para enviar Pix.",
+                    "Verifique o nome antes.",
+                    "Não faça pagamento urgente." },
 
             { "Conta Laranja",
-              "Usam sua conta para crimes.\nSaiba mais: https://blog.bb.com.br/entenda-o-risco-de-emprestar-sua-conta-bancaria/",
-              "Nunca empreste conta.",
-              "Pode virar crime grave." },
+                    "Golpistas usam sua conta.",
+                    "Não empreste conta.",
+                    "É crime grave." },
 
             { "Compras Online",
-              "Sites muito baratos demais.\nSaiba mais: https://blog.bb.com.br/voce-esta-seguro-para-comprar-online/",
-              "Verifique HTTPS.",
-              "Pesquise avaliações." },
+                    "Sites falsos.",
+                    "Verifique HTTPS.",
+                    "Pesquise avaliações." },
 
-            { "Golpe do Boleto Falso",
-              "Boletos adulterados.\nSaiba mais: https://blog.bb.com.br/golpe-do-boleto-falso-saiba-como-se-proteger/",
-              "Confira o beneficiário.",
-              "Pague pelo app oficial." },
+            { "Boleto Falso",
+                    "Boletos adulterados.",
+                    "Verifique beneficiário.",
+                    "Pague pelo app oficial." },
 
             { "Cartão Clonado",
-              "Dados copiados.\nSaiba mais: https://blog.bb.com.br/cartao-clonado-saiba-como-se-proteger/",
-              "Ative alertas.",
-              "Não forneça dados por telefone." }
+                    "Dados copiadas.",
+                    "Ative alertas.",
+                    "Não forneça dados." }
     };
 }
 
-
-
-// ================= RELACIONAMENTOS =====================
+// =================== RELACIONAMENTOS =======================
 
 class Relacionamentos {
 
     private static final Map<Integer, List<Integer>> mapa = new HashMap<>();
 
     static {
-        mapa.put(9, Arrays.asList(7, 10, 11, 12));
-        mapa.put(10, Arrays.asList(9, 12));
-        mapa.put(17, Arrays.asList(16));
+        mapa.put(9, Arrays.asList(7,10,11));
+        mapa.put(10, Arrays.asList(9,12));
         mapa.put(14, Arrays.asList(10));
+        mapa.put(17, Arrays.asList(16));
     }
 
-    public static void mostrarRelacionados(int opcao) {
-        List<Integer> rel = mapa.get(opcao);
+    public static void mostrarRelacionados(int op) {
+        List<Integer> rel = mapa.get(op);
         if (rel == null) {
-            System.out.println("Nenhum relacionado encontrado.");
+            System.out.println("(Nenhum relacionado)");
             return;
         }
-        for (int r : rel) {
+        for (Integer r : rel) {
             System.out.println("- " + GolpeDatabase.GOLPES[r - 1][0]);
         }
     }
 }
 
-
-
-// ================= DETECÇÃO DE SMS =====================
+// =================== ANÁLISE DE SMS =======================
 
 class SMSMessage {
     private String text;
@@ -195,8 +235,9 @@ class DetectionResult {
 class PhishingDetector {
 
     private List<String> blockList = Arrays.asList(
-            "clique no link", "bloqueada", "urgente", "pix", "transferência",
-            "me ajuda", "acesso suspeito", "premio", "ganhou", "até hoje"
+            "clique", "urgente", "pix", "transferência",
+            "acesso suspeito", "senha", "bloqueada",
+            "premio", "ganhou", "até hoje"
     );
 
     public DetectionResult analisarMensagem(SMSMessage m) {
@@ -204,49 +245,37 @@ class PhishingDetector {
         List<String> achados = new ArrayList<>();
 
         for (String p : blockList) {
-            if (txt.contains(p))
-                achados.add(p);
+            if (txt.contains(p)) achados.add(p);
         }
 
         return new DetectionResult(!achados.isEmpty(), achados);
     }
 }
 
-
-
-// ================= SALVAMENTO EM ARQUIVO =====================
+// =================== SALVAR EM ARQUIVO =======================
 
 class MessageStorage {
-
     public static void salvar(SMSMessage msg, DetectionResult r) {
-
         try (FileWriter fw = new FileWriter("mensagens_analisadas.txt", true)) {
 
             fw.write("=======================================\n");
-            fw.write("Mensagem analisada em: " +
-                    LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")) + "\n");
+            fw.write("Mensagem analisada: " + LocalDateTime.now() + "\n");
             fw.write("Texto: " + msg.getText() + "\n");
-            fw.write("Remetente: " + msg.getSender() + "\n");
+            fw.write("De: " + msg.getSender() + "\n");
             fw.write("Data recebida: " + msg.getReceivedAt() + "\n");
             fw.write("Suspeita: " + r.isSuspeita() + "\n");
-            fw.write("Palavras detectadas: " + r.getPalavrasDetectadas() + "\n\n");
+            fw.write("Palavras: " + r.getPalavrasDetectadas() + "\n\n");
 
-        } catch (IOException e) {
-            System.out.println("Erro ao salvar arquivo: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Erro ao salvar arquivo.");
         }
     }
 }
 
-
-
-// ================= RELATÓRIO DE SEGURANÇA ===============
+// =================== RELATÓRIO =======================
 
 class SecurityReport {
     public static String gerar(SMSMessage msg, DetectionResult r) {
-
-        String rec = r.isSuspeita()
-                ? Colors.RED + "⚠ NÃO clique em links!" + Colors.RESET
-                : Colors.GREEN + "✓ Mensagem aparentemente segura." + Colors.RESET;
 
         return Colors.CYAN +
                 "\n===== RELATÓRIO DE SEGURANÇA =====\n" +
@@ -255,40 +284,54 @@ class SecurityReport {
                 "Remetente: " + msg.getSender() + "\n" +
                 "Data: " + msg.getReceivedAt() + "\n" +
                 "Suspeita: " + r.isSuspeita() + "\n" +
-                "Padrões Encontrados: " + r.getPalavrasDetectadas() + "\n" +
-                "Recomendação: " + rec + "\n";
+                "Padrões: " + r.getPalavrasDetectadas() + "\n";
     }
 }
 
-
-
-// ================= SOLUÇÕES PARA GOLPES =================
-
-class Solucoes {
-    public static void sugerirParaSMS(DetectionResult r) {
-        System.out.println("\nRecomendações:");
-        if (r.isSuspeita()) {
-            System.out.println("- Apague a mensagem.");
-            System.out.println("- Não clique em links.");
-            System.out.println("- Bloqueie o remetente.");
-        } else {
-            System.out.println("- Verifique a credibilidade do remetente.");
-        }
-    }
-}
-
-
-
-// ==================== INTERFACE (UI) ====================
+// =================== INTERFACE =======================
 
 class UI {
 
-    private static Scanner sc = new Scanner(System.in);
+    public static Scanner sc = new Scanner(System.in);
 
     public static void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
+
+    // ---- Tratamento de Erro --------------------
+
+    public static int inputIntSafe() {
+        try { return Integer.parseInt(sc.nextLine()); }
+        catch (Exception e) { return -9999; }
+    }
+
+    public static boolean tratarErro() {
+        System.out.println(Colors.RED + "\nEntrada inválida!" + Colors.RESET);
+
+        System.out.println("""
+            O que deseja fazer?
+            1 - Recomeçar
+            2 - Voltar
+            3 - Sair
+            """);
+        System.out.print("Escolha: ");
+
+        int op = inputIntSafe();
+
+        return switch (op) {
+            case 1 -> true;
+            case 2 -> false;
+            case 3 -> {
+                System.out.println("Saindo...");
+                System.exit(0);
+                yield false;
+            }
+            default -> tratarErro();
+        };
+    }
+
+    // ---- Menu Principal ------------------------
 
     public static void mostrarMenuPrincipal() {
         clearScreen();
@@ -300,54 +343,70 @@ class UI {
                 "│ 2 - Golpes por Mensagens                   │\n" +
                 "│ 3 - Golpes Online                          │\n" +
                 "│ 4 - Golpes do Dia a Dia                    │\n" +
+                "│ 5 - Dashboard                              │\n" +
                 "│ 0 - Sair                                   │\n" +
                 "└────────────────────────────────────────────┘" +
                 Colors.RESET);
     }
+
+    // ---- Iniciar Sistema -----------------------
 
     public static void iniciar() {
         PhishingDetector detector = new PhishingDetector();
 
         while (true) {
             mostrarMenuPrincipal();
-            System.out.print("\nEscolha uma opção: ");
-            int op = sc.nextInt();
-            sc.nextLine();
+            System.out.print("Escolha: ");
+            int op = inputIntSafe();
+
+            if (op == -9999) {
+                if (tratarErro()) continue;
+                else return;
+            }
 
             switch (op) {
                 case 1 -> submenu(1, 8, detector);
                 case 2 -> submenu(9, 11, detector);
                 case 3 -> submenu(12, 16, detector);
                 case 4 -> submenu(14, 18, detector);
+                case 5 -> Stats.mostrarDashboard();
                 case 0 -> {
-                    clearScreen();
-                    Animation.type("Encerrando sistema...", 40);
+                    Animation.type("Encerrando...", 30);
                     return;
                 }
-                default -> System.out.println("Opção inválida!");
+                default -> tratarErro();
             }
         }
     }
 
+    // ---- Submenus ------------------------------
+
     public static void submenu(int inicio, int fim, PhishingDetector detector) {
+
         while (true) {
             clearScreen();
-
-            System.out.println(Colors.YELLOW +
-                    "===== GOLPES DISPONÍVEIS =====" +
-                    Colors.RESET);
+            System.out.println(Colors.YELLOW + "===== GOLPES DISPONÍVEIS =====" + Colors.RESET);
 
             for (int i = inicio; i <= fim; i++) {
                 System.out.println(i + " - " + GolpeDatabase.GOLPES[i - 1][0]);
             }
 
             System.out.println("\n0 - Voltar");
-            System.out.print("\nEscolha um golpe: ");
-            int op = sc.nextInt();
-            sc.nextLine();
+            System.out.print("Escolha: ");
+
+            int op = inputIntSafe();
+
+            if (op == -9999) {
+                if (tratarErro()) continue;
+                else return;
+            }
 
             if (op == 0) return;
-            if (op < inicio || op > fim) continue;
+
+            if (op < inicio || op > fim) {
+                tratarErro();
+                continue;
+            }
 
             exibirGolpe(op);
 
@@ -358,52 +417,53 @@ class UI {
         }
     }
 
+    // ---- Exibir Detalhes -----------------------
+
     public static void exibirGolpe(int op) {
         clearScreen();
         String[] g = GolpeDatabase.GOLPES[op - 1];
 
         System.out.println(Colors.BLUE + "===== DETALHES DO GOLPE =====" + Colors.RESET);
-        System.out.println("Título: " + g[0] + "\n");
-        System.out.println("Descrição:\n" + g[1] + "\n");
-        System.out.println("Como se proteger:\n" + g[2] + "\n");
-        System.out.println("Ações práticas:\n" + g[3] + "\n");
+        System.out.println("Título: " + g[0]);
+        System.out.println("\nDescrição: " + g[1]);
+        System.out.println("\nComo se proteger: " + g[2]);
+        System.out.println("\nAções práticas: " + g[3]);
 
-        System.out.println(Colors.GREEN + "Golpes relacionados:" + Colors.RESET);
+        System.out.println("\nRelacionados:");
         Relacionamentos.mostrarRelacionados(op);
     }
 
-    public static void analisarSMS(PhishingDetector detector) {
-        System.out.print("\nDeseja analisar mensagem SMS? (s/N): ");
-        String r = sc.nextLine();
-        if (!r.equalsIgnoreCase("s")) return;
+    // ---- Análise de SMS ------------------------
 
-        System.out.print("Digite a mensagem: ");
-        String msg = sc.nextLine();
+    public static void analisarSMS(PhishingDetector detector) {
+
+        System.out.print("\nDeseja analisar SMS? (s/N): ");
+        if (!sc.nextLine().equalsIgnoreCase("s")) return;
+
+        System.out.print("Mensagem: ");
+        String texto = sc.nextLine();
 
         System.out.print("Remetente: ");
         String rem = sc.nextLine();
 
-        SMSMessage sms = new SMSMessage(msg, rem);
+        SMSMessage sms = new SMSMessage(texto, rem);
 
-        Animation.type("Analisando mensagem...", 25);
+        Animation.type("Analisando...", 30);
 
-        DetectionResult result = detector.analisarMensagem(sms);
+        DetectionResult r = detector.analisarMensagem(sms);
+        Stats.registrarResultado(r);
 
-        Animation.type("Gerando relatório...", 25);
+        Animation.type("Gerando relatório...", 30);
 
-        System.out.println(SecurityReport.gerar(sms, result));
-        Solucoes.sugerirParaSMS(result);
+        System.out.println(SecurityReport.gerar(sms, r));
 
-        // ✔ SALVA NO ARQUIVO
-        MessageStorage.salvar(sms, result);
+        MessageStorage.salvar(sms, r);
 
-        Animation.type("\nMensagem salva em 'mensagens_analisadas.txt'.", 25);
+        Animation.type("Mensagem salva em arquivo.", 20);
     }
 }
 
-
-
-// ======================= MAIN ==========================
+// =================== MAIN =======================
 
 public class Main {
     public static void main(String[] args) {
