@@ -1,0 +1,15 @@
+O for é usado quando queremos repetir um bloco várias vezes, especialmente quando sabemos o número de repetições.
+
+✔ Para que serve no projeto?
+
+Listar golpes no menu
+
+Ler todos os padrões de golpe da blockList
+
+Exibir golpes relacionados
+
+for (String p : blockList) {
+    if (texto.contains(p)) {
+        encontrados.add(p);
+    }
+}
