@@ -112,153 +112,134 @@ class GolpeDatabase {
 
     public static final String[][] GOLPES = {
 
-            // 1
             {
                     "Golpes por contato telefônico - Falsa Central de Atendimento",
-                    "Criminosos fingem ser atendentes do banco e induzem a vítima a confirmar dados.",
-                    "Nunca forneça senhas ou códigos pelo telefone. Bancos não pedem isso.",
-                    "Desligue imediatamente. Ligue você mesmo para o número oficial do banco."
+                    "O golpe da Central de Atendimento é quando golpistas se passam por funcionários de bancos para roubar dados.\nSaiba mais: https://blog.bb.com.br/golpe-falsa-central-de-atendimento/",
+                    "Nunca compartilhe senhas.",
+                    "Desligue a ligação e contate seu banco pelos canais oficiais."
             },
 
-            // 2
             {
                     "Golpe do Falso Motoboy",
-                    "Golpistas dizem que o cartão foi clonado e mandam um motoboy retirar.",
-                    "Nenhum banco recolhe cartão na sua casa.",
-                    "Jamais entregue cartão ou documentos para terceiros."
+                    "Golpistas pegam cartões alegando fraude.\nSaiba mais: https://blog.bb.com.br/golpe-do-falso-motoboy-saiba-como-se-proteger/",
+                    "Bancos não pegam cartões na sua casa.",
+                    "Jamais entregue cartões ou documentos."
             },
 
-            // 3
             {
                     "Golpe da Mão Fantasma",
-                    "Golpista envia um link remoto alegando suporte e passa a controlar seu celular.",
-                    "Nunca instale apps a pedido de supostos atendentes.",
-                    "Se instalou, desligue o aparelho imediatamente e procure o banco."
+                    "Golpistas usam acesso remoto simulando suporte.\nSaiba mais: https://blog.bb.com.br/como-evitar-golpes-de-acesso-remoto/",
+                    "Nunca instale apps solicitados por telefone.",
+                    "Desligue o aparelho e vá ao banco."
             },
 
-            // 4
             {
                     "Golpe Módulo de Segurança",
-                    "Mensagem falsa dizendo que precisa instalar 'modulo de segurança'.",
-                    "Bancos não mandam links por WhatsApp ou SMS.",
-                    "Baixe apps SOMENTE pela loja oficial."
+                    "Criminosos pedem instalação de módulo falso.\nSaiba mais: https://blog.bb.com.br/golpe-do-modulo-seguranca-bb/",
+                    "Não instale aplicativos fora da loja oficial.",
+                    "Confirme com o banco sempre que receber instruções suspeitas."
             },
 
-            // 5
             {
                     "Golpe do Empréstimo Consignado",
-                    "Ofertas falsas de empréstimos com juros irreais.",
-                    "Consulte sempre seu INSS ou banco oficial.",
-                    "Nunca aceite ofertas rápidas sem contrato real."
+                    "Usam dados pessoais para empréstimos falsos.\nSaiba mais: https://blog.bb.com.br/veja-como-se-proteger-do-golpe-do-emprestimo-consignado/",
+                    "Não aceite ofertas rápidas.",
+                    "Utilize apenas canais oficiais."
             },
 
-            // 6
             {
                     "Golpe da Liberação de Equipamentos",
-                    "Golpistas pedem pagamento antecipado para liberar equipamento.",
-                    "Ninguém pede taxa antecipada.",
-                    "Pesquise CNPJ e reputação antes de pagar qualquer coisa."
+                    "Criminosos pedem que vá ao caixa eletrônico.\nSaiba mais: https://blog.bb.com.br/roubaram-o-meu-celular-e-agora/",
+                    "Não siga orientações de desconhecidos.",
+                    "Ligue diretamente para o banco."
             },
 
-            // 7
             {
                     "Golpe do 0800",
-                    "Criminosos falsificam números 0800 que parecem do banco.",
-                    "Confirme sempre no site oficial.",
-                    "Nunca ligue de volta para números enviados via SMS."
+                    "Pedem para ligar para número falso.\nSaiba mais: https://blog.bb.com.br/golpe-0800/",
+                    "Use apenas telefones do site oficial.",
+                    "Nunca retorne ligações de mensagens."
             },
 
-            // 8
             {
                     "Golpe da Videochamada",
-                    "Fingem ser atendentes e pedem para mostrar documentos na câmera.",
-                    "Nenhum banco pede vídeo de documentos.",
-                    "Evite exibir dados sensíveis em chamadas."
+                    "Pedem para mostrar documentos por vídeo.\nSaiba mais: https://blog.bb.com.br/golpe-da-videochamada/",
+                    "Não envie imagens de documentos.",
+                    "Solicite atendimento oficial."
             },
 
-            // 9  (SMS)
             {
                     "Golpes por Mensagens - Links Falsos",
-                    "SMS dizendo para clicar em links suspeitos.",
-                    "Nunca clique em links recebidos por SMS.",
-                    "Entre manualmente no app do banco.\n" +
-                    "Verifique sempre o remetente.\n" +
-                    "Leia mais: https://blog.bb.com.br/golpe-via-sms-rouba-dados-bancarios/"
+                    "Phishing com links falsos.\nSaiba mais: https://blog.bb.com.br/golpe-via-sms-rouba-dados-bancarios/",
+                    "Não clique em links recebidos.",
+                    "Acesse o app digitando manualmente."
             },
 
-            // 10
             {
                     "Golpes no WhatsApp",
-                    "Golpistas se passam por familiares pedindo dinheiro.",
-                    "Confirme sempre por ligação.",
-                    "Nunca transfira sem confirmar a identidade."
+                    "Se passam por familiares.\nSaiba mais: https://www.bb.com.br/site/pra-voce/seguranca/conheca-os-principais-golpes/",
+                    "Confirme por ligação.",
+                    "Nunca transfira sem validar identidade."
             },
 
-            // 11
             {
-                    "Golpe do Desenrola Brasil",
-                    "Mensagens falsas dizendo para renegociar dívidas.",
-                    "Consulte o site oficial do governo.",
-                    "Nunca envie CPF por WhatsApp."
+                    "Golpes Desenrola Brasil",
+                    "Links falsos sobre renegociação.\nSaiba mais: https://blog.bb.com.br/desenrola-brasil-golpes-usam-links-falsos/",
+                    "Confira no site oficial do governo.",
+                    "Nunca envie documentos por WhatsApp."
             },
 
-            // 12
             {
                     "Catfish e Golpes Online",
-                    "Perfis falsos manipulam vítimas emocionalmente para pedir dinheiro.",
-                    "Pesquise fotos no Google.",
-                    "Nunca envie dinheiro para desconhecidos."
+                    "Perfis falsos enganam vítimas.\nSaiba mais: https://blog.bb.com.br/catfish-e-golpes-online/",
+                    "Pesquise imagens no Google.",
+                    "Não envie dinheiro para desconhecidos."
             },
 
-            // 13
             {
                     "Golpe do Emprego",
-                    "Promessas falsas de emprego cobrando taxa antecipada.",
-                    "Vagas reais não cobram.",
-                    "Pesquise CNPJ antes de enviar documentos."
+                    "Cobrando taxa por vaga.\nSaiba mais: https://blog.bb.com.br/golpe-do-emprego-como-identificar-e-evitar/",
+                    "Vagas reais não cobram nada.",
+                    "Verifique CNPJ e reputação."
             },
 
-            // 14
             {
                     "Golpes Pix",
-                    "Criminosos pressionam para enviar Pix imediato.",
-                    "Nunca aja sob pressão.",
-                    "Verifique sempre o destinatário."
+                    "Pressão para envio imediato.\nSaiba mais: https://blog.bb.com.br/golpes-do-pix-saiba-como-se-proteger/",
+                    "Não aja sob pressão.",
+                    "Confirme o recebedor antes de enviar."
             },
 
-            // 15
             {
                     "Conta Laranja",
-                    "Golpistas usam sua conta para lavar dinheiro.",
-                    "Nunca empreste conta.",
-                    "Pode gerar crime grave."
+                    "Uso da conta para crimes.\nSaiba mais: https://blog.bb.com.br/entenda-o-risco-de-emprestar-sua-conta-bancaria/",
+                    "Nunca empreste sua conta.",
+                    "Isso pode te envolver em crimes."
             },
 
-            // 16
             {
                     "Compras Online",
-                    "Sites falsos oferecendo preços baixos demais.",
-                    "Verifique o cadeado HTTPS.",
-                    "Procure reclamações e avaliações."
+                    "Sites falsos com preços baixos.\nSaiba mais: https://blog.bb.com.br/voce-esta-seguro-para-comprar-online/",
+                    "Verifique HTTPS.",
+                    "Pesquise avaliações."
             },
 
-            // 17
             {
                     "Golpe do Boleto Falso",
-                    "Golpistas enviam boletos adulterados.",
-                    "Cheque sempre o beneficiário.",
-                    "Pague apenas via app do banco."
+                    "Boletos adulterados.\nSaiba mais: https://blog.bb.com.br/golpe-do-boleto-falso-saiba-como-se-proteger/",
+                    "Cheque o beneficiário.",
+                    "Use o app oficial do banco."
             },
 
-            // 18
             {
                     "Cartão Clonado",
-                    "Dados copiados e usados indevidamente.",
-                    "Ative alertas no app.",
-                    "Não forneça dados por telefone."
-            },
+                    "Dados copiados indevidamente.\nSaiba mais: https://blog.bb.com.br/cartao-clonado-saiba-como-se-proteger/",
+                    "Ative alertas.",
+                    "Nunca informe dados por telefone."
+            }
     };
 }
+
 
 
 // ======================================================
@@ -453,4 +434,3 @@ class Solucoes {
         }
     }
 }
-
