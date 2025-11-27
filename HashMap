@@ -1,0 +1,37 @@
+HashMap — Relacionamentos entre Golpes
+
+Um HashMap permite armazenar informações no formato chave → valor.
+No nosso projeto, ele é utilizado para criar ligações entre golpes parecidos, permitindo que, ao selecionar um golpe, o sistema mostre automaticamente outros golpes semelhantes.
+
+✔ Por que isso é útil?
+
+Evita repetição de texto no banco de dados
+
+Ajuda o usuário a aprender variações do mesmo golpe
+
+Organiza o conhecimento de forma inteligente
+
+Torna o código modular e expansível
+
+private static final Map<Integer, List<Integer>> mapa = new HashMap<>();
+
+static {
+    mapa.put(9, Arrays.asList(7, 10, 11, 12)); 
+    mapa.put(10, Arrays.asList(9, 12));        
+    mapa.put(17, Arrays.asList(16));           
+    mapa.put(14, Arrays.asList(10));           
+}
+
+Explicação do exemplo:
+
+Chave 9 → golpe "Links falsos por SMS"
+
+Valores → lista de golpes semelhantes:
+
+7: Golpe do 0800
+
+10: Golpe no WhatsApp
+
+11: Desenrola Brasil
+
+12: Catfish
