@@ -1,0 +1,11 @@
+try {
+    Thread.sleep(450);
+} catch (Exception e) {}
+
+Explicação:
+
+try → tenta fazer a pausa
+
+catch → se der erro, ignora silenciosamente
+
+Resultado: delay suave, sem risco de crash
